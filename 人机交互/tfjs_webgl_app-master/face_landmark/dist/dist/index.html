@@ -1,0 +1,53 @@
+
+<!doctype html>
+<html lang="en">
+
+<!------------------------------------------------------------------
+        H E A D
+  ------------------------------------------------------------------>
+<head>
+    <title>TensorFlow.js + WebGL Example</title>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="/index.808e5878.css" type="text/css">
+
+
+
+    <script src="/index.4649d660.js"></script>
+    <script src="/index.06f3a3de.js"></script>
+
+    <script src="/index.34ba7a4a.js"></script>
+    <script src="/index.09b8e38d.js"></script>
+    <script src="/index.2ec8baa1.js"></script>
+    <script src="/index.94cf71bc.js"></script>
+    <script src="/index.67e32f02.js"></script>
+    <script src="/index.866c8bb2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@2.4.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-wasm@2.4.0/dist/tf-backend-wasm.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/face-landmarks-detection@0.0.1"></script>
+    <script src="/index.46ea1499.js"></script>
+    <script src="/index.be5e2339.js"></script>
+</head>
+
+<!------------------------------------------------------------------
+        B O D Y
+  ------------------------------------------------------------------>
+<body onload="startWebGL();">
+
+    <h1>FaceSwap</h1>
+
+    <div id="loading">
+      <div class="spinner"></div>
+    </div>
+
+    <center>
+    <canvas id="glcanvas" width="800" height="800"></canvas>
+    </center>
+
+    <h1>↑<br>Drop a face image to change the face mask.</h1>
+
+    <div id="debug_log"></div>
+</body>
+
+
+</html>

@@ -1,0 +1,29 @@
+{
+  "name": "interactive-perspective-frame",
+  "version": "1.0.0",
+  "description": "Interactive digital frame with head-coupled perspective",
+  "main": "index.js",
+  "author": "Charlie Gerard",
+  "license": "ISC",
+  "dependencies": {
+    "@mediapipe/pose": "^0.4.1624666670",
+    "@tensorflow-models/pose-detection": "0.0.3",
+    "@tensorflow/tfjs-converter": "^3.7.0",
+    "@tensorflow/tfjs-core": "^3.7.0",
+    "react": "17.0.2",
+    "react-dom": "^17.0.2",
+    "react-scripts": "4.0.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

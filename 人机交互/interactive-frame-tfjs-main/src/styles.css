@@ -1,0 +1,33 @@
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+body {
+  font-family: "Inter var", sans-serif;
+  color: #101015;
+}
+
+video {
+  position: absolute;
+  z-index: 0;
+  display: none;
+}
+
+#container {
+  position: absolute;
+  z-index: 1;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
