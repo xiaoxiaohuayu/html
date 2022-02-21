@@ -120,4 +120,21 @@ console.log(5);var foo = 0;(function foo() { foo = 10; console.log(foo); }());co
 // })
 
 // console.log('script end')
+
+<!-- dome  -->
+function* chars() {
+  for (let i of [1,2,3,4,5]) {
+      yield new Promise((resolve)=> setTimeout(()=>{ 
+        resolve(i)
+       },1000))
+  }
+}
+async function dome() {
+  for (let chunk of chars()) {
+      console.log(await chunk)
+  }
+}
+dome()
+
+
 ```
