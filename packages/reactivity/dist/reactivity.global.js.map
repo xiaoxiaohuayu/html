@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../shared/src/index.ts", "../src/index.ts"],
+  "sourcesContent": ["export const isObject = (value) =>{\r\n  return typeof value === 'object' && value !== null;\r\n}", "import { isObject } from \"@hao/shared\";\r\nconst i = isObject({})\r\nconsole.log(i)"],
+  "mappings": ";;AAAO,MAAM,WAAW,CAAC,UAAS;AAChC,WAAO,OAAO,UAAU,YAAY,UAAU;AAAA,EAChD;;;ACDA,MAAM,IAAI,SAAS,CAAC,CAAC;AACrB,UAAQ,IAAI,CAAC;",
+  "names": []
+}
