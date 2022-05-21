@@ -1,3 +1,3 @@
 import { isObject } from "@hao/shared";
-const i = isObject({})
-console.log(i)
+export {effect} from './effect'
+export {reactive as HaoReactive} from './reactive'

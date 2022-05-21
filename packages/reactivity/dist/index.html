@@ -10,7 +10,14 @@
 <script src="./reactivity.global.js"></script>
 
 <body>
+  <div id="app">
 
+  </div>
 </body>
+<script>
+  const { reactive } = HaoReactive
+  const state = reactive({ name: 'hzx', age: '25' })
+  console.log(state)
+</script>
 
 </html>
