@@ -17,8 +17,9 @@ export function reactive(target) {
      */
     get(target, key, receiver) {
       // 去代理对象上取值
-      return Reflect.get(target,key,receiver)
-      // return target[key]
+      console.log('去代理对象上取值',target[key])
+      // return Reflect.get(target,key,receiver)
+      return target[key]
     },
         /**
      * 
@@ -31,7 +32,10 @@ export function reactive(target) {
      */
     set(target, key, value, receiver) {
       // 设置值
-      target[key] = value
+      console.log('去代理对象上设置值',target[key])
+      // target[key] = value
+      
+      // return Reflect.set(target, key, value, receiver)
       return true
     }
   })

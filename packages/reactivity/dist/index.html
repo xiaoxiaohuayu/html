@@ -15,9 +15,16 @@
   </div>
 </body>
 <script>
-  const { reactive } = HaoReactive
-  const state = reactive({ name: 'hzx', age: '25' })
+  const { HaoReactive } = VueReactivity
+  const obj = { name: 'hzx', age: '25' }
+  const state = HaoReactive(obj)
+  // console.log(state)
+  // setTimeout(() => {
+  console.log(state.name)
+  state.name = '666'
   console.log(state)
+  console.log(obj === state)
+  // }, 1000)
 </script>
 
 </html>
