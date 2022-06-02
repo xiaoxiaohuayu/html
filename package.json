@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "node script/dev.js reactivity -f global",
-    "demo": "cd packages/air-conditioning && react-scripts start"
+    "demo": "cd packages/air-conditioning && react-scripts start",
+    "demo1": "pnpm run --filter @packages/air-conditioning start"
   },
   "keywords": [],
   "author": "",
