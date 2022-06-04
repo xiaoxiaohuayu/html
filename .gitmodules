@@ -1,0 +1,3 @@
+[submodule "packages/air-conditioning"]
+	path = packages/air-conditioning
+	url = git@github.com:xiaoxiaohuayu/air-conditioning.git
