@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div id="grid_box">
+    <div class="grid_1">1</div>
+    <div class="grid_2">2</div>
+    <div class="grid_3">3</div>
+    <div class="grid_4">4</div>
+    <div class="grid_5">5</div>
+  </div>
+</body>
+<style>
+  *{
+    margin: 0;
+    padding: 0;
+  }
+#grid_box{
+  display: grid;
+  /* display:inline-grid; */
+  /* grid-template-rows: 120px 120px 120px 120px 120px; */
+  /* grid-template-rows:repeat(5,120px); */
+  /* grid-template-columns: repeat(auto-fill,400px); */
+  /* grid-template-columns: 200px; */
+  grid-template-columns: 100px 200px 100px 240px 170px;
+  grid-gap: 5px;
+  /* grid-column-gap: 5px; */
+  /* 有点像合并单元格的意思，只不过只能是相邻的 */
+  /* grid-template-areas: */
+  /* "sidebar sidebar " */
+  /* "sidebar content content " */
+  grid-auto-flow: columns;
+  /* grid-auto-flow 属性控制着自动布局算法怎样运作 */
+  /**
+  repeat() 函数：可以简化重复的值。该函数接受两个参数，第一个参数是重复的次数，第二个参数是所要重复的值
+  */
+}
+#grid_box >div{
+  /* width: 200px;
+  height: 100px; */
+  text-align: center;
+  /* line-height: 99px; */
+  /* background-color: ; */
+}
+.grid_1{
+  background-color: aqua;
+  /* grid-area: sidebar; */
+}
+.grid_2{
+  background-color: rgba(53, 211, 53, 0.637);
+  /* grid-area: content; */
+}
+.grid_3{
+  background-color: rgb(231, 198, 14);
+  /* grid-area: header; */
+}
+.grid_4{
+  background-color: rgba(95, 53, 211, 0.836);
+  
+}
+.grid_5{
+  background-color: rgba(211, 21, 94, 0.637);
+  
+}
+</style>
+</html>

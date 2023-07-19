@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>响应式数据</title>
+  </title>
+</head>
+
+<body>
+  123
+</body>
+<script>
+  // const bucket = new Set();
+  const bucket = new WeakMap()
+  // 原始数据
+  const data = { text: 'hello world' }
+  // 对数据进行代理操作
+  const obj = new Proxy(data, {
+    // 拦截读取操作
+    get(target, key) {
+      // 读取的时候将副作用函数存储起来 如果没有直接返回
+      if (!activeEffect) return target[key]
+      // 如果有的话 去桶里获取数据 它也是一个 Map 类型：key -->effects
+      let depsMap = bucket.get(target)
+      // depsMap 如果不存在则新建一个Map 去跟target 关联
+      if (!depsMap) {
+        bucket.set(target, (depsMap = new Map()))
+      }
+      // 如果存在，根据key从depsMap 中取得deps，它是一个Set类型，里面存储所有跟当前key相关联的副作用函数：effects
+      let deps = depsMap.get(key)
+      // 如果 deps 不存在 新建一个Set数据结构跟key关联
+      if (!deps) {
+        depsMap.set(key, (deps = new Set()))
+      }
+      // 如果存在，将当前的副作用函数添加到桶里
+      deps.add(activeEffect)
+      // 
+      return target[key]
+    },
+    // 拦截设置操作
+    set(target, key, newVal) {
+      // 设置属性
+      target[key] = newVal
+      // 
+      const depsMap = bucket.get(target)
+
+      if (!depsMap) return
+      const effects = depsMap.get(key)
+      effects && effects.forEach(fn => fn());
+      // 重新设置值的时候再将副作用的函数取出并且执行
+      // bucket.forEach(fn => fn())
+      // console.log('set', bucket)
+      // 返回 true 代表设置操作成功
+      // return true
+    }
+  })
+  // 定义了一个全局变量 activeEffect，初始值是undefined，它的作用是存储被注册的副作用函数。接着重新定义了effect 函数，它变成了一个用来注册副作用函数的函数
+  // 
+  var activeEffect = undefined;
+  // 副作用函数
+  function effect(fn) {
+    activeEffect = fn
+    fn()
+  }
+  // 执行 并且触发读取操作
+  effect(
+    () => {
+      console.log('effect run') // 会打印 2 次
+      document.body.innerText = obj.text
+    }
+  )
+  // 修改数据
+  setTimeout(() => {
+    // 副作用函数中并没有读取 notExist 属性的值 但是effect 却走了2次 
+    // 当代理对象去读取一个不存在的属性时也会触发副作用函数的原因是： 在副作用函数和被操作的属性字段没有明确的关系，就是说我不知道你读取和设置的字段key 是那个 。
+    // 解决方法是 建立起数据关系 构造结构树
+    /**
+     * 读取的target 目标对象
+     * 读取的字段名
+     * 注册的副作用函数
+     * 树形结构为：
+     * target
+          └── key
+                └── effectFn
+      1.如果2个不同的副作用函数读取了相同的对象属性结构为
+      target
+        └── text
+              └── effectFn1
+              └── effectFn2
+      2.如果同一个副作用函数读取了不同的对象属性值结构为
+        target
+          └── text1
+                └── effectFn
+          └─ text2
+                └── effectFn
+      3.不同的副作用函数读取不同的对象属性结构为
+        target1
+          └── text1
+                └── effectFn1
+        target2
+          └── text2
+                └── effectFn2
+      这里vue3 使用了WeakMap的数据结构，至于为啥没使用上面的set数据 请自行查阅。简单来说 WeakMap 可以被垃圾回收掉。
+    */
+    obj.notExist = 'hello vue3'
+    // obj.text = 'fix text'
+
+  }, 1000)
+</script>
+
+</html>

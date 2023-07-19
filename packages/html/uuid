@@ -1,0 +1,2 @@
+随机uuid
+URL.createObjectURL(new Blob([""])).split("/").pop()

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebGL</title>
+</head>
+
+<body>
+  <canvas id="webgl" width="500" height="500" style="background-color: antiquewhite"></canvas>
+</body>
+<script>
+
+/**
+ * 学习webGL的发展历史 
+ * 它是根据openGL 发展而来，有1.0和2.0版本。openGL可以理解为一个管道 通过这个管道把编写的东西发送给显卡GPU，也可是说是什么单元处理器，没太仔细了解，然后去绘制。
+ * 当你编写的时候 需要用到GSLS的语法 在前端可以理解为就是字符串，当然里面有些字符是写死的。有顶点（这里解释的话就是绘制的三角形的点，位置，大小）片元（这里是指的顶点里颜色的绘制）目前是这么理解的
+ * 
+*/
+  window.addEventListener('load', function () {
+    //通过getElementById()方法获取canvas画布
+    var canvas = document.getElementById('webgl');
+    //通过方法getContext()获取WebGL上下文
+    var gl = canvas.getContext('webgl');
+    /**
+     * "2d", 建立一个 CanvasRenderingContext2D 二维渲染上下文。
+      "webgl" (或"experimental-webgl") 这将创建一个 WebGLRenderingContext 三维渲染上下文对象。只在实现WebGL 版本1(OpenGL ES 2.0)的浏览器上可用。
+      "webgl2" (或 "experimental-webgl2") 这将创建一个 WebGL2RenderingContext 三维渲染上下文对象。只在实现 WebGL 版本2 (OpenGL ES 3.0)的浏览器上可用。
+      "bitmaprenderer" 这将创建一个只提供将canvas内容替换为指定ImageBitmap功能的ImageBitmapRenderingContext  。
+    */
+    console.log(gl)
+    //顶点着色器源码
+    var vertexShaderSource = '' +
+      'void main(){' +
+      //给内置变量gl_PointSize赋值像素大小
+      '   gl_PointSize=200.0;' +
+      //顶点位置，位于坐标原点
+      // 第一个参数x轴  左右移动
+      // 第二个参数y轴  上下移动
+      // 第三个参数z轴  景深
+      '   gl_Position =vec4(0.4,0.0,0.0,1.0);' +
+      '}';
+
+    //片元着色器源码
+    var fragShaderSource = '' +
+      'void main(){' +
+      //定义片元颜色
+      '   gl_FragColor = vec4(1.0,0.0,0.0,0.5);' +
+      '}';
+
+    //初始化着色器
+    var program = initShader(gl, vertexShaderSource, fragShaderSource);
+    //开始绘制，显示器显示结果
+    gl.drawArrays(gl.POINTS,0,1);
+
+    //声明初始化着色器函数
+    function initShader(gl, vertexShaderSource, fragmentShaderSource) {
+      /**
+       * 大白话理解
+       * 先创建顶点、片元的对象，然后用shaderSource去挂载，然后再去调用编译 不知道这个流程对不对
+       * 
+      */
+      //创建顶点着色器对象
+      var vertexShader = gl.createShader(gl.VERTEX_SHADER);
+      //创建片元着色器对象
+      var fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
+      //引入顶点、片元着色器源代码
+      gl.shaderSource(vertexShader, vertexShaderSource);
+      gl.shaderSource(fragmentShader, fragmentShaderSource);
+      //编译顶点、片元着色器
+      gl.compileShader(vertexShader);
+      gl.compileShader(fragmentShader);
+
+      /**
+       * 大白话理解
+       * 有了绘制图形的参数  位置、大小、颜色之后 开始正式的绘制
+       * 创建绘制对象，将参数传入
+      */
+      //创建程序对象program
+      var program = gl.createProgram();
+      //附着顶点着色器和片元着色器到program
+      gl.attachShader(program, vertexShader);
+      gl.attachShader(program, fragmentShader);
+      //链接program
+      gl.linkProgram(program);
+      //使用program
+      gl.useProgram(program);
+      //返回程序program对象
+      return program;
+    }
+  })
+</script>
+<style>
+  #_canvas {
+    height: 500px;
+    width: 500px;
+    background-color: bisque;
+  }
+</style>
+
+</html>

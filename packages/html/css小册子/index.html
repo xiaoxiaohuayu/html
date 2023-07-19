@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        CSS小册子
+    </title>
+<!--引入css-->
+    <link rel="stylesheet" href="rest.css">
+</head>
+<body>
+<div class="div-box">
+    <div class="div1">
+        <h1>linear-gradient渐变动画动画很生硬</h1>
+    </div>
+    <div class="div2">
+        <h1>更改 background-position 渐变动画动画</h1>
+    </div>
+    <div class="div3">
+        <h1>更改 background-size 渐变动画动画</h1>
+    </div>
+    <div class="div4">
+        <h1>上面的几种方式都可以但是每个颜色的具体都需要控制
+        使用transfrom 渐变动画
+        </h1>
+    </div>
+    <div class="div5">
+        <h1>
+            使用hue-rotate 改变色相 渐变动画
+        </h1>
+    </div>
+</div>
+</body>
+<style>
+    .div-box{
+        width: 800px;
+        height: 90vh;
+        border: 1px solid #ccc;
+        margin: 0 auto;
+    }
+    /*
+        渐变动画很生硬
+    */
+    .div1{
+        text-align: center;
+        color: #b4a5a5;
+        height: 100px;
+        background: linear-gradient(90deg, #2653e5 0%, #e9c01e 100%);
+        animation: gradientChange 2s infinite;
+    }
+    @keyframes gradientChange {
+        100%{
+            background: linear-gradient(90deg, #e91e1e 0%, #6f27b0 100%);
+        }
+    }
+    .div2{
+        text-align: center;
+        color: #b4a5a5;
+        height: 100px;
+        background: linear-gradient(90deg,#ffc700 0%,#e91e1e 100%);
+        background-size: 200% 100%; /*这里的100%是指高度，200%是指宽度 如果不理解可以将动画中的100% 加值或者减值 就可以看出效果了*/
+        background-position: 0 0;
+        animation: gradientChange2 2s infinite;
+    }
+    @keyframes gradientChange2 {
+        0%{
+            background-position: 0 0;
+        }
+        100%{
+            background-position: 100% 0;
+        }
+    }
+    .div3{
+        text-align: center;
+        color: #b4a5a5;
+        height: 100px;
+        background: linear-gradient(90deg,  #ffc700 0%, #e91e1e 33%, #6f27b0 66%, #00ff88 100%);
+        background-position:100% 0;
+        animation: gradientChange3 2s infinite;
+        /* 实现方式跟 background-position 差不多 将背景图的大小由 3 倍背景区大小向 1 倍背景区大小过渡，在背景图变换的过程中，就有了一种动画的效果*/
+    }
+    @keyframes gradientChange3 {
+        0%{
+            background-size: 230% 100%;
+        }
+        100%{
+            background-size: 100% 100%;
+        }
+    }
+    .div4{
+        text-align: center;
+        color: #b4a5a5;
+        width: 300px;
+        height: 300px;
+        margin: 0 auto;
+        overflow: hidden;
+        position: relative;
+        border: 1px solid #000000;
+    }
+    .div4::before{
+        content: '';
+        position: absolute;
+        top: -100%;
+        left: -100%;
+        bottom: -100%;
+        right: -100%;
+        background: linear-gradient(45deg,  #ffc700 0%, #e91e1e 50%, #6f27b0 100%);
+        background-size: 100% 100%;
+        z-index: -1;
+        animation: gradientChange4 6s infinite linear alternate;
+        /*
+        gradientChange4：这是动画名称，是你自定义的一个名字，用来标识这个动画。在其他地方可以通过animation-name属性来引用这个动画。
+        2s：这是动画的持续时间，表示动画从开始到结束所需的时间。这里的2s意味着动画持续2秒。
+        infinite：这是动画的迭代次数，表示动画将无限循环播放。设置为infinite表示动画将一直重复播放，直到被停止或被移出屏幕。
+        linear：这是动画的时间曲线函数，用于定义动画的变化速度。linear表示动画将以线性速度进行变化，即匀速改变。
+        alternate：这是动画的方向，用于定义动画在每次循环迭代结束后是否反向播放。alternate表示动画将在每次循环迭代结束后反向播放一次。
+        */
+    }
+    @keyframes gradientChange4 {
+        0% {
+            transform: translate(30%, 30%);
+        }
+        25% {
+            transform: translate(30%, -30%);
+        }
+        50% {
+            transform: translate(-30%, -30%);
+        }
+        75% {
+            transform: translate(-30%, 30%);
+        }
+        100% {
+            transform: translate(30%, 30%);
+        }
+    }
+    .div5{
+        width: 200px;
+        height: 200px;
+        margin: 0 auto;
+        border: 1px solid #ccc;
+        background: radial-gradient(circle, #5fddcc, #ff004d);
+        animation: hueRotate 8s infinite alternate;
+    }
+    @keyframes hueRotate {
+        0% {
+            filter: hue-rotate(0);
+        }
+        100% {
+            filter: hue-rotate(360deg);
+        }
+    }
+</style>
+</html>

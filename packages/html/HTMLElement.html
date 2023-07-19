@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>原生的HTML的自定义标签</title>
+</head>
+
+<body>
+  <div>
+    div
+    <!-- 💎⚽⚾🥎🏀🏐💋  🌸 -->
+  </div>
+  <div is="flag-icon">
+    💎
+  </div>
+  <flag-icon country="🌸">111</flag-icon>
+  <div>
+    <p>nihaasdasdasdasdasdasd</p>
+    <p is="word-count"></p>
+  </div>
+</body>
+<script defer>
+  const supportsCustomElementsV1 = 'customElements' in window;
+  console.log(supportsCustomElementsV1)
+  class FlagIcon extends HTMLElement {
+  constructor() {
+    super();
+    this._countryCode = null;
+    this.addEventListener('click', this._updateRendering(0));
+  }
+
+  static observedAttributes = ["country"];
+
+  attributeChangedCallback(name, oldValue, newValue) {
+    // name will always be "country" due to observedAttributes
+    this._countryCode = newValue;
+    this._updateRendering(1);
+  }
+  connectedCallback() {
+    this._updateRendering(2);
+  }
+
+  get country() {
+    return this._countryCode;
+  }
+  set country(v) {
+    this.setAttribute("country", v);
+  }
+
+  _updateRendering(i) {
+    console.log('111',i)
+    // Left as an exercise for the reader. But, you'll probably want to
+    // check this.ownerDocument.defaultView to see if we've been
+    // inserted into a document with a browsing context, and avoid
+    // doing any work if not.
+  }
+}
+  customElements.define("flag-icon", FlagIcon,{extends:'p'});
+// -------------------------------------
+// Create a class for the element  HTMLDivElement  HTMLParagraphElement
+class WordCount extends HTMLElement {
+  constructor() {
+    // Always call super first in constructor
+    super();
+  }
+  connectedCallback(){
+        // count words in element's parent element
+    const wcParent = this.parentNode;
+    function countWords(node){
+    console.log( node.innerText)
+      const text = node.innerText || node.textContent;
+      return text.length;
+    }
+
+    const count = `Words: ${countWords(wcParent)}`;
+    console.log(this)
+    // Create a shadow root
+    const shadow = this.attachShadow({mode: 'open'});
+    console.log(shadow)
+
+    // Create text node and add word count to it
+    const text = document.createElement('span');
+    text.textContent = count;
+
+    // Append it to the shadow root
+    shadow.appendChild(text);
+    // const count = `Words: ${countWords(wcParent)}`;
+    //   text.textContent = count;
+  }
+}
+
+// Define the new element
+customElements.define('word-count', WordCount, { extends: 'p' });
+// document.createElement("div", { is: "word-count" })
+</script>
+<style>
+  flag-icon{
+    width: 20px;
+    height: 20px;
+  }
+</style>
+</html>
+<!-- 
+自定义元素反应
+自定义元素可以定义特殊的生命周期挂钩，用于在其存在的有趣时间运行代码。这些称为自定义元素反应。
+
+    名字	                                                          执行时间
+constructor	                                          创建或升级元素实例。可用于初始状态、设置活动听众或创建阴影 dom。请参阅有关限制在 。constructor
+connectedCallback	                                    每次将元素插入 Dom 时调用。用于运行设置代码，如获取资源或渲染。一般来说，你应该尽量把工作推迟到这个时候。
+disconnectedCallback	                                每次从 Dom 中删除元素时都会调用。用于运行清理代码。
+attributeChangedCallback(attrName, oldVal, newVal)	  当已添加、删除、更新或替换所观察到的属性时调用。当解析器创建或升级元素时，也需要初始值。注意：只有属性中列出的属性才会收到此回调。observedAttributes
+adoptedCallback	自定义元素已移入一个新的（例如有人调用）。documentdocument.adoptNode(el)
+
+connectedCallback：当 custom element首次被插入文档DOM时，被调用。
+disconnectedCallback：当 custom element从文档DOM中删除时，被调用。
+adoptedCallback：当 custom element被移动到新的文档时，被调用。
+attributeChangedCallback: 当 custom element增加、删除、修改自身属性时，被调用。
+ -->

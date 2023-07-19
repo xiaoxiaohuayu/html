@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ch_ZN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>虚拟dom渲染器</title>
+</head>
+
+<body>
+  <button onclick="render(vnode,document.body)">渲染</button>
+</body>
+<script>
+  /**
+   * 读Vue设计与实现 书籍的代码示例
+  */
+  //  1. 渲染器
+  // vnode 虚拟dom
+  // container 挂载节点
+  function render(vnode, container) {
+    // 创建DOM
+    const el = document.createElement(vnode.tag)
+    // 遍历vnode.props 将属性、事件添加到创建的DOM上
+    for (const key in vnode.props) {
+      if (/^on/.test(key)) {
+        el.addEventListener(key.substr(2).toLowerCase(),//onClick===>click
+          vnode.props[key]
+        )
+      } else {
+        if (typeof vnode.props[key] === "function") {
+          let attribute = vnode.props[key]()
+          el.setAttribute(key, attribute)
+        } else {
+          el.setAttribute(key, vnode.props[key])
+        }
+      }
+    }
+    // 处理childern
+    if (typeof vnode.children === 'string') {
+      // 如果childern是字符串类型的说明是文本类型的子节点
+      el.appendChild(document.createTextNode(vnode.children))
+      // 如果数组 则继续递归调用render函数渲染子节点，并且使用当前的el作为dom挂载点
+    } else if (Array.isArray(vnode.children)) {
+      vnode.children.forEach(child => {
+        render(child, el)
+      });
+    }
+    // 最后将所有的元素添加到根级节点
+    console.log(el, 'el')
+    container.appendChild(el)
+  }
+  var vnode = {
+    tag: 'p',
+    props: {
+      onClick: () => {
+        alert('点击事件触发了')
+      },
+      class: () => { return Math.random() * 200 }
+    },
+    children: [{
+      tag: 'div',
+      props: {
+        class: 'class-aaa'
+      },
+      children: 'this div dom node'
+    }]
+  }
+  render(vnode, document.body)
+</script>
+
+</html>

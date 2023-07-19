@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>大文件上传</title>
+</head>
+
+<body>
+  <form action="/">
+    <label for="filename">上传文件:</label>
+    <input type="file" id="filename" files multiple onchange="changeFile(event)">
+  </form>
+</body>
+<script>
+  function changeFile(e) {
+    const { files, value } = e.target
+    console.log(files, value, e.target)
+  }
+  var updateImageDisplay = function (e) {
+    console.log('123123', e)
+  }
+
+  // filename.addEventListener('change', updateImageDisplay);
+</script>
+
+</html>

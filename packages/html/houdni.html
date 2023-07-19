@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>houdini</title>
+</head>
+
+<body>
+  <div>
+    这是一段文字
+  </div>
+  <div class="box">
+
+  </div>
+</body>
+<style>
+  /* 第一步设置一个css变量 */
+  :root {
+    --whitecolor: red;
+    --bgA: #596FF5;
+    --bgB: #58A55C;
+  }
+
+  /* 第二步使用它 如果正常的话文字颜色会改为红色*/
+  div {
+    color: var(--whitecolor);
+  }
+
+  /* 
+    现在我们来使用@property 来修改
+    api参考地址 https://developer.mozilla.org/en-US/docs/Web/CSS/@property
+    它有三个属性
+    syntax 允许你修改的属性 比如说 color、url、image、angle、number 等等
+    inherits  在css中有些属性是可以被继承的比如color font-size 这个属性就是用来控制是否继承
+    initial-value  设置属性的初始值。
+    -------注意stntax和inherits 是必填属性 ，如果不填是不会生效的------
+    开始使用
+  */
+  @property --whitecolor {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #00ffff;
+  }
+
+  @property --bgA {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #596FF5;
+  }
+
+  @property --bgB {
+    syntax: '<color>';
+    inherits: false;
+    initial-value: #58A55C;
+  }
+
+  /* 此时在看页面效果已经是青色的了 */
+  /* 再来看一个例子 一个div盒子背景颜色是一个渐变颜色。*/
+  .box {
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(90deg, var(--bgA), var(--bgB));
+    /* transition: 1s background; */
+    /**这里加上了但是没生效。是因为渐变属性是不支持transition属性的。但是color是支持的所以我们可以这样做*/
+    transition: 1s --bgA, 1s --bgB;
+    /* 
+      注意⚠️ 通过@property 设置的自定义变量才能正常。至于原因我也不知道
+      我们设定的过渡语句 transition: 1s --bgA, 1s --bgB，在这里，
+      我们是针对 CSS Houdini 自定义变量设定过渡，而不是针对 background 设定过渡动画
+    */
+  }
+
+  .box:hover {
+    --bgA: #D33820;
+    --bgB: #F9E08F;
+  }
+
+  /* 鼠标的hover效果会让背景颜色变成红色和卡其色的过渡  但是转换太僵硬 如果要加入一些过渡效果的话会怎么样，试一试
+   */
+</style>
+
+</html>
+<script>
+  /**
+   * houdini 是开放css底层API。可以通过自定义拓展某些属性来拓展css。（比如有些的css属性不支持动画）
+   * 其实之前的at-rule就是houdini的一种 像常用的
+   * @import
+   * @media 
+   * @page
+   * @keyframes
+   * 这些都是
+   * 参考链接 ：https://developer.mozilla.org/zh-CN/docs/Web/Guide/Houdini
+   * 简单的来说就是你可以注册你自己的css属性。
+   * 可以看上面的例子
+   * 
+  */
+
+</script>
